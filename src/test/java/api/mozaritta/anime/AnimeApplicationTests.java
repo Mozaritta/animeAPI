@@ -1,10 +1,10 @@
-package api.mozaritta.movies;
+package api.mozaritta.anime;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MoviesApplicationTests {
+class AnimeApplicationTests {
 
 	@Test
 	void contextLoads() {

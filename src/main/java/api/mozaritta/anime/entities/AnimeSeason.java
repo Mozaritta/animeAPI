@@ -1,4 +1,4 @@
-package api.mozaritta.movies.entities;
+package api.mozaritta.anime.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,13 +7,13 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "reviews")
+@Document(collection = "animeSeason")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Review {
-
+public class AnimeSeason {
     @Id
     private ObjectId id;
-    private String body;
+    private String season;
+    private String year;
 }

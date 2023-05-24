@@ -1,4 +1,4 @@
-package api.mozaritta.movies.entities;
+package api.mozaritta.anime.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

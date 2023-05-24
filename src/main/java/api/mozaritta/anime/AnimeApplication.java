@@ -1,4 +1,4 @@
-package api.mozaritta.movies;
+package api.mozaritta.anime;
 
 //import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.springframework.boot.SpringApplication;
@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 //@EnableEncryptableProperties
-public class MoviesApplication {
+public class AnimeApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MoviesApplication.class, args);
+		SpringApplication.run(AnimeApplication.class, args);
 	}
 
 }

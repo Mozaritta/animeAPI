@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>api.mozaritta</groupId>
-	<artifactId>movies</artifactId>
+	<artifactId>anime</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>movies</name>
-	<description>Movies API project for Spring Boot</description>
+	<name>anime</name>
+	<description>Anime API project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
