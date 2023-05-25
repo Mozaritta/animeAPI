@@ -4,6 +4,7 @@ import api.mozaritta.anime.entities.Anime;
 import api.mozaritta.anime.entities.Review;
 import api.mozaritta.anime.services.AnimeService;
 import api.mozaritta.anime.services.ReviewService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,5 +38,14 @@ public class AnimeController {
         String imdbId = payload.get("imdb");
         Review response = reviewService.createReview(bodyReview, imdbId);
         return new ResponseEntity<Review>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/add_anime")
+    public ResponseEntity<ObjectId> createAnime(@RequestBody Map<String, String> payload){
+        String title = payload.get("title");
+        String imdbId = payload.get("title");
+        Anime anime = new Anime(title, imdbId);
+        return new ResponseEntity<ObjectId>(animeService.save(anime), HttpStatus.CREATED);
+
     }
 }
