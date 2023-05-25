@@ -1,17 +1,16 @@
 package api.mozaritta.anime.controllers;
 
 import api.mozaritta.anime.entities.Anime;
+import api.mozaritta.anime.entities.Review;
 import api.mozaritta.anime.services.AnimeService;
-import org.bson.types.ObjectId;
+import api.mozaritta.anime.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -19,14 +18,24 @@ import java.util.Optional;
 public class AnimeController {
     @Autowired
     private AnimeService animeService;
+    @Autowired
+    private ReviewService reviewService;
 
     @GetMapping
     public ResponseEntity<List<Anime>> allAnime(){
         return new ResponseEntity<List<Anime>>(animeService.getAllAnime(), HttpStatus.OK);
     }
 
-    @GetMapping("/{imdbId}")
-    public ResponseEntity<Optional<Anime>> getAnimeById(@PathVariable String imdbId){
-        return new ResponseEntity<Optional<Anime>>(animeService.getAnimeByImdbId(imdbId), HttpStatus.OK);
+//    @GetMapping("/{imdbId}")
+//    public ResponseEntity<Optional<Anime>> getAnimeById(@PathVariable String imdbId){
+//        return new ResponseEntity<Optional<Anime>>(animeService.getAnimeByImdbId(imdbId), HttpStatus.OK);
+//    }
+
+    @PostMapping("/add_review")
+    public ResponseEntity<Review> createReview(@RequestBody Map<String , String> payload){
+        String bodyReview = payload.get("body");
+        String imdbId = payload.get("imdb");
+        Review response = reviewService.createReview(bodyReview, imdbId);
+        return new ResponseEntity<Review>(response, HttpStatus.CREATED);
     }
 }

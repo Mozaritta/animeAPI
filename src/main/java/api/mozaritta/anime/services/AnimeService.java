@@ -19,9 +19,9 @@ public class AnimeService {
         return animeRepository.findAll();
     }
 
-    public Optional<Anime> getAnimeByImdbId(String imdbId){
-        return animeRepository.findAnimeByImbdId(imdbId);
-    }
+//    public Optional<Anime> getAnimeByImdbId(String imdbId){
+//        return animeRepository.findAnimeByImdbId(imdbId);
+//    }
 
 
 }

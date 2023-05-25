@@ -1,4 +1,4 @@
-# Spring Boot Backend For Retrieving Anime Data**
+# Spring Boot Backend For Retrieving Anime Data
 ## Tools:
 Programming language + Framework 
 - Spring Boot ( Java )

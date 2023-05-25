@@ -14,5 +14,10 @@ public class AnimeSeason {
     @Id
     private Integer id;
     private String season;
-    private String year;
+    private Integer year;
+
+    public AnimeSeason(String season, Integer year){
+        this.season = season;
+        this.year = year;
+    }
 }
