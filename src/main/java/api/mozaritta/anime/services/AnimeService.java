@@ -15,11 +15,12 @@ public class AnimeService {
     private AnimeRepository animeRepository;
 
     public List<Anime> getAllAnime(){
+//        System.out.println(animeRepository.findAll());
         return animeRepository.findAll();
     }
 
-    public Optional<Anime> getAnimeById(ObjectId id){
-        return animeRepository.findById(id);
+    public Optional<Anime> getAnimeByImdbId(String imdbId){
+        return animeRepository.findAnimeByImbdId(imdbId);
     }
 
 

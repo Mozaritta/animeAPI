@@ -19,6 +19,7 @@ public class Anime {
 
     @Id
     private ObjectId id;
+    private String imdbId;
     private String title;
     private String type;
     private String episodes;

@@ -25,8 +25,8 @@ public class AnimeController {
         return new ResponseEntity<List<Anime>>(animeService.getAllAnime(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<Anime>> getAnimeById(@PathVariable ObjectId id){
-        return new ResponseEntity<Optional<Anime>>(animeService.getAnimeById(id), HttpStatus.OK);
+    @GetMapping("/{imdbId}")
+    public ResponseEntity<Optional<Anime>> getAnimeById(@PathVariable String imdbId){
+        return new ResponseEntity<Optional<Anime>>(animeService.getAnimeByImdbId(imdbId), HttpStatus.OK);
     }
 }
