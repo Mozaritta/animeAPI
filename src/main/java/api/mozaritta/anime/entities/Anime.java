@@ -1,5 +1,6 @@
 package api.mozaritta.anime.entities;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,9 @@ public class Anime {
 
     @Id
     private ObjectId id;
+    @NotNull
     private String imdbId;
+    @NotNull
     private String title;
     private String type;
     private String episodes;
