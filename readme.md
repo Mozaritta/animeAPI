@@ -11,6 +11,16 @@ Database:
 -- mongodbsh -- MongoDB Compass
 ****
 ## Details
+### MongoDB installation
+
+For this project you can use MongoDB in the cloud to configure your database,
+or locally using docker compose, by runnign the following command:
+
+```shell
+docker-compose -f /Users/YourUsername/PathToProject/movies/docker-compose.yml up -d
+```
+This will create and run mongodb as well as the mongodb-express which is the UI for controlling your
+database at `http:\\localhost:8081\`.
 ### Mongo DB shell commands for manual updates, used during project construction:
  - To add new field with random generated number rounded by 10:
  ```shell
