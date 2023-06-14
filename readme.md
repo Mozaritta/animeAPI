@@ -15,8 +15,8 @@ Database:
 
 For this project you can use MongoDB in the cloud to configure your database, and install 
 MongoDB Compass for UI usage.
-You can use the following link to create your cloud account "(https://account.mongodb.com/)", once
-done connect to "(https://cloud.mongodb.com/)" and follow the configs manual to manage your first database.
+You can use the following link to create your cloud account https://account.mongodb.com/, once
+done connect to https://cloud.mongodb.com/ and follow the configs manual to manage your first database.
 If you already have an account, don't forget to keep the tab open and add your current IP address.
 
 For local installation: using docker compose, by running the following command:
