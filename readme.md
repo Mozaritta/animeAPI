@@ -13,8 +13,13 @@ Database:
 ## Details
 ### MongoDB installation
 
-For this project you can use MongoDB in the cloud to configure your database,
-or locally using docker compose, by runnign the following command:
+For this project you can use MongoDB in the cloud to configure your database, and install 
+MongoDB Compass for UI usage.
+You can use the following link to create your cloud account "[https://account.mongodb.com/]", once
+done connect to "[https://cloud.mongodb.com/]" and follow the configs manual to manage your first database.
+If you already have an account, don't forget to keep the tab open and add your current IP address.
+
+For local installation: using docker compose, by running the following command:
 
 ```shell
 docker-compose -f /Users/YourUsername/PathToProject/movies/docker-compose.yml up -d
