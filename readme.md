@@ -22,7 +22,7 @@ If you already have an account, don't forget to keep the tab open and add your c
 For local installation: using docker compose, by running the following command:
 
 ```shell
-docker-compose -f /Users/YourUsername/PathToProject/movies/docker-compose.yml up -d
+docker-compose -f /PathToProject/movies/docker-compose.yml up -d
 ```
 This will create and run mongodb as well as the mongodb-express which is the UI for controlling your
 database at `http:\\localhost:8081\`.
