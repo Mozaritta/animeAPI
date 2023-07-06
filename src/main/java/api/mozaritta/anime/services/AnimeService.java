@@ -1,5 +1,6 @@
 package api.mozaritta.anime.services;
 
+import api.mozaritta.anime.dto.AllAnimeDTO;
 import api.mozaritta.anime.dto.AnimeDTO;
 import api.mozaritta.anime.entities.Anime;
 import org.bson.types.ObjectId;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface AnimeService {
 
 
-    List<Anime> getAllAnime();
+    AllAnimeDTO getAllAnime(Integer page);
 
     Anime getFirst();
 

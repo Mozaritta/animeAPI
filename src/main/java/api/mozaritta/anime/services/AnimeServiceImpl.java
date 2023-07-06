@@ -1,5 +1,6 @@
 package api.mozaritta.anime.services;
 
+import api.mozaritta.anime.dto.AllAnimeDTO;
 import api.mozaritta.anime.dto.AnimeDTO;
 import api.mozaritta.anime.entities.Anime;
 import api.mozaritta.anime.repositories.AnimeRepository;
@@ -7,6 +8,9 @@ import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -24,9 +28,11 @@ public class AnimeServiceImpl implements AnimeService{
     private AnimeRepository animeRepository;
 
     @Override
-    public List<Anime> getAllAnime(){
+    public AllAnimeDTO getAllAnime(Integer page){
 //        System.out.println(animeRepository.findAll());
-        return animeRepository.findAll();
+        int pageNumber = page < 1 ? 0 : page-1;
+        Pageable pageable = PageRequest.of(pageNumber, 3, Sort.Direction.DESC, "title");
+        return new AllAnimeDTO(animeRepository.findAll(pageable));
     }
 
     @Override

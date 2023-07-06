@@ -47,19 +47,33 @@ public class AnimeController {
     private final String message = "Too Many Requests, please try in a moment";
 
     @GetMapping("all_anime")
-    public ResponseEntity<ResponseHandler> allAnime(){
+    public ResponseEntity<ResponseHandler> allAnime(Integer page){
         if(this.bucket.tryConsume(1)){
+            LOG.info(animeService.getAllAnime(page).toString());
             LOG.info("Getting all anime.");
-            return new ResponseEntity<>( new ResponseHandler(200, new ArrayList<>(animeService.getAllAnime()), "Anime retrieved"), HttpStatus.OK);
+            return new ResponseEntity<>(
+                    new ResponseHandler(
+                            200,
+                            animeService.getAllAnime(page),
+                            "Anime retrieved"),
+                    HttpStatus.OK
+            );
         }
         return new ResponseEntity<>(new ResponseHandler(400, new ArrayList<>(), this.message), HttpStatus.TOO_MANY_REQUESTS);
     }
 
-    @GetMapping("/all_reviews")
-    public ResponseEntity<ResponseHandler> allReviews(){
+    @GetMapping("all_reviews")
+    public ResponseEntity<ResponseHandler> allReviews(Integer page){
         if(this.bucket.tryConsume(1)){
             LOG.info("Getting all reviews.");
-            return new ResponseEntity<>( new ResponseHandler(200, new ArrayList<>(reviewService.getAllReviews()), "Reviews retrieved"), HttpStatus.OK);
+            return new ResponseEntity<>(
+                    new ResponseHandler(
+                            200,
+                            reviewService.getAllReviews(page),
+                            "Reviews retrieved"
+                    ),
+                    HttpStatus.OK
+            );
         }
         return new ResponseEntity<>(new ResponseHandler(400, new ArrayList<>(), this.message), HttpStatus.TOO_MANY_REQUESTS);
     }
