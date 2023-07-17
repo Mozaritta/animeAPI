@@ -18,18 +18,11 @@ public class AnimeDTO {
     @Id
     private ObjectId id;
     @NotNull
-    private String imdbId;
-    @NotNull
     private String title;
     private String type;
-    private String episodes;
     private String status;
     private String thumbnail;
     private String picture;
     private AnimeSeason animeSeason;
-    private List<String> sources;
-    private List<String> tags;
-    @DocumentReference
-    private List<Review> reviewsIds;
 
 }

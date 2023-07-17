@@ -38,14 +38,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public AllReviewsDTO getAllReviews(@RequestBody Integer page){
-        int pageNumber = page < 1 ? 0 : page-1;
+        int pageNumber = page < 1 ? 1 : page-1;
         Pageable pageable = PageRequest.of(
                 pageNumber,
                 3,
                 Sort.Direction.DESC,
                 "title"
         );
-        return new AllReviewsDTO(reviewRepository.findAll(pageable));
+        return new AllReviewsDTO(reviewRepository.findAll(pageable).map(this::convertToDto));
     }
 
     public Review createReview(String body, String imdbId){
