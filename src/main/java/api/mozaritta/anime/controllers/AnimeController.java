@@ -78,7 +78,7 @@ public class AnimeController {
         return new ResponseEntity<>(new ResponseHandler(400, new ArrayList<>(), this.message), HttpStatus.TOO_MANY_REQUESTS);
     }
 
-    @GetMapping("get-first-anime")
+    @GetMapping("get_first_anime")
     public ResponseEntity<ResponseHandler> getRandom() {
         if(this.bucket.tryConsume(1)){
 //            Anime anime = new ObjectMapper().readValue(json, Anime.class);
@@ -119,7 +119,6 @@ public class AnimeController {
             if (nameNonExistentOrHasInvalidLength) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
-//        Review newReview = reviewService.convertToEntity(reviewDTO);
             Review response = reviewService.createReview(reviewDTO.getBody(), reviewDTO.getImdbID());
             ArrayList<Object> list = new ArrayList<>();
             list.add(response);
@@ -132,7 +131,7 @@ public class AnimeController {
     public ResponseEntity<ResponseHandler> createAnime(@RequestBody Anime request){
         String title = request.getTitle();
         String imdbId = request.getImdbId();
-        Anime anime = new Anime(title, imdbId);
+        Anime anime = new Anime(title, imdbId, "0");
         animeService.save(anime);
         ArrayList<Object> list = new ArrayList<>();
         list.add(anime);

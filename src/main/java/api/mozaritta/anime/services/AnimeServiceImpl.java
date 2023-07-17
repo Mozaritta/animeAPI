@@ -49,7 +49,9 @@ public class AnimeServiceImpl implements AnimeService{
     //    public Optional<Anime> getAnimeByImdbId(String imdbId){
 //        return animeRepository.findAnimeByImdbId(imdbId);
 //    }
-
+    public Anime findById(ObjectId id) {
+        return animeRepository.findById(id).orElseThrow(() -> new RuntimeException("Anime not found"));
+    }
     @Override
     public Anime convertToEntity(AnimeDTO animeDTO) throws ParseException {
 
