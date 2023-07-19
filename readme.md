@@ -39,3 +39,9 @@ db.books.aggregate([ { $unset: "copies" } ]);
 ```shell
 db.anime.aggregate([{ $set: { "imdbId": { $toString: '$_id'}}}, {$out: "anime"}]);
 ```
+
+### Run Application on Docker
+
+If you wish to run this application in Docker, run the build command first 
+`./mvnw spring-boot:build-image` and then run 
+`docker run -p 8000:8000 mozarita/anime`.
