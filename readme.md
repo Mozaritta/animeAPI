@@ -45,3 +45,11 @@ db.anime.aggregate([{ $set: { "imdbId": { $toString: '$_id'}}}, {$out: "anime"}]
 If you wish to run this application in Docker, run the build command first 
 `./mvnw spring-boot:build-image` and then run 
 `docker run -p 8000:8000 mozarita/anime`.
+
+### Run tests
+
+To run the application's test make sure your docker daemon is
+started, or your docker desktop is open or your wsl is running.
+
+If you're on linux make sure to run `sudo systemctl start docker`
+

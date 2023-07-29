@@ -6,6 +6,8 @@ import api.mozaritta.anime.services.ReviewService;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,6 +44,7 @@ class AnimeControllerTest {
         registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
     }
 
+    private final Logger LOGGER = LoggerFactory.getLogger(AnimeControllerTest.class);
     @BeforeEach
     void setUp(){
         String animeName1 = "Boku No Hero Academia";
@@ -49,6 +52,12 @@ class AnimeControllerTest {
         List<Anime> anime = new ArrayList<>();
         byte[] array = new byte[7];
         new Random().nextBytes(array);
+        //Test logging with colors
+        LOGGER.debug("\u001B[34m" + "Debug - {}" + "\u001B[34m", animeName1);
+        LOGGER.info("Test logging with colors" + "\u001B[34m");
+        LOGGER.info("\u001B[34m" + "Info  - {}" + "\u001B[33m", animeName1);
+        LOGGER.warn("\u001B[33m" + "Warn  - {}" + "\u001B[31m", animeName1);
+        LOGGER.error("\u001B[31m" + "Error - {}" + "\u001B[38m", animeName1);
         anime.add(new Anime(animeName1, new String(array, StandardCharsets.UTF_8), "24"));
         anime.add(new Anime("One Punch Man", new String(array, StandardCharsets.UTF_8), "24"));
         anime.add(new Anime("Mashle", new String(array, StandardCharsets.UTF_8), "24"));
