@@ -32,8 +32,14 @@ jobs:
         cache: maven # only run actions if changes in poml.xml
     - name: Change wrapper permissions
       run: chmod +x ./mvnw
+    - name: Run build
+      run: ./mvnw spring-boot:build-image
     - name: Build with Maven
       run: ./mvnw verify # mvn -B package --file pom.xml
+    - name: Run docker image
+      run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        docker run -p 8000:8000 mozarita/anime
 
     - if: ${{ github.ref == 'refs/heads/main' }}
       name : Build and Push Docker Image
