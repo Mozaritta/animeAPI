@@ -38,8 +38,8 @@
         <appender-ref ref="Console" />
     </root>
 
-    <!-- LOG "api.mozaritta.anime*" at TRACE level -->
-    <logger name="api.mozaritta.anime" level="debug" additivity="false">
+    <!-- LOG "api.mozaritta.anime*" at error level -->
+    <logger name="api.mozaritta.anime" level="error" additivity="false">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </logger>
