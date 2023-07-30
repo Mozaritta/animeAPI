@@ -32,11 +32,9 @@ jobs:
         cache: maven # only run actions if changes in poml.xml
     - name: Change wrapper permissions
       run: chmod +x ./mvnw
-    # Set up Docker
-    - name: Start env
-      runs:
-        using: 'docker'
-        image: 'Dockerfile'
+
+    - name: Set up Docker
+      run: docker/setup-buildx-action
 
     - name: Run build
       run: ./mvnw spring-boot:build-image
