@@ -33,13 +33,12 @@ jobs:
     - name: Change wrapper permissions
       run: chmod +x ./mvnw
     - name: Run build
-      run: ./mvnw spring-boot:build-image
-    - name: Build with Maven
-      run: ./mvnw verify # mvn -B package --file pom.xml
-    - name: Run docker image
       run: |
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-        docker run -p 8000:8000 mozarita/anime
+        docker run -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/anime
+        ./mvnw spring-boot:build-image
+    - name: Build with Maven
+      run: ./mvnw verify # mvn -B package --file pom.xml
 
     - if: ${{ github.ref == 'refs/heads/main' }}
       name : Build and Push Docker Image
