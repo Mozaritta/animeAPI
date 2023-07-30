@@ -41,7 +41,7 @@ jobs:
 #        registry: ${{ secrets.DOCKER_REGISTRY }}
 
     - name: Set up Docker
-      run: docker/setup-buildx-action@v3
+      run: docker/setup-buildx-action@v2
 
     - name: Run build
       run: ./mvnw spring-boot:build-image
