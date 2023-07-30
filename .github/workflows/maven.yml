@@ -38,10 +38,10 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        registry: ${{ secrets.DOCKER_REGISTRY }}
+#        registry: ${{ secrets.DOCKER_REGISTRY }}
 
     - name: Set up Docker
-      run: docker/setup-buildx-action@v1
+      run: docker/setup-buildx-action@v3
 
     - name: Run build
       run: ./mvnw spring-boot:build-image
