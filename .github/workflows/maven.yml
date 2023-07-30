@@ -33,8 +33,10 @@ jobs:
     - name: Change wrapper permissions
       run: chmod +x ./mvnw
     # Set up Docker
-    - name: Set up Docker
-      uses: docker/setup-docker@v1
+    - name: Start env
+      runs:
+        using: 'docker'
+        image: 'Dockerfile'
 
     - name: Run build
       run: ./mvnw spring-boot:build-image
