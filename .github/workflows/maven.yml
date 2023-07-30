@@ -27,6 +27,8 @@ jobs:
         java-version: '17'
         distribution: 'temurin' # use microsoft distrivution if deployment is in azure
         cache: maven # only run actions if changes in poml.xml
+    - name: Change wrapper permissions
+      run: chmod +x ./mvnw
     - name: Build with Maven
       run: ./mvnw verify # mvn -B package --file pom.xml
 
