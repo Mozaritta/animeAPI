@@ -1,7 +1,7 @@
 FROM eclipse-temurin:17-jdk-alpine as builder
 WORKDIR app
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+#ARG JAR_FILE=target/*.jar
+COPY target/*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
 FROM eclipse-temurin:17-jdk-alpine
