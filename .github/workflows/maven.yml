@@ -49,7 +49,7 @@ jobs:
 
     - name: Run tests
       run: |
-        docker build -t animeAPI .
+        docker build test .
         docker run animeAPI ./mvnw -Dtest=AnimeApplicationTests test
 #        docker-compose -f "docker-compose.yml" up -d --build
 #        ./mvnw spring-boot:build-image
