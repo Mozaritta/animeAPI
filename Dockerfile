@@ -3,7 +3,7 @@ COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
-RUN ./mvn -Dtest=AnimeApplicationTests test
+RUN ./mvnw -Dtest=AnimeApplicationTests test
 
 FROM eclipse-temurin:17-jdk-alpine as builder
 COPY src /app/src
