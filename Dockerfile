@@ -4,6 +4,7 @@ COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
 RUN ./mvnw -Dtest=AnimeApplicationTests test
+RUN echo '--- done with tests ---'
 
 FROM eclipse-temurin:17-jdk-alpine as builder
 COPY src /app/src
