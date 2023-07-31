@@ -1,10 +1,12 @@
-FROM maven:3.6.0-jdk-11-slim AS build
-COPY src /home/app/src
-COPY pom.xml /home/app
-RUN mvn -f /home/app/pom.xml clean package
+FROM eclipse-temurin:17-jdk-alpine AS build
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
+RUN ./mvn -Dtest=AnimeApplicationTests test
 
 FROM eclipse-temurin:17-jdk-alpine as builder
-COPY . /app
+COPY src /app/src
 WORKDIR /app
 ARG JAR_FILE=/app/target/*.jar
 RUN ls
