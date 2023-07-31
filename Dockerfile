@@ -3,6 +3,8 @@ COPY . /app
 WORKDIR /app
 ARG JAR_FILE=/app/target/*.jar
 COPY ${JAR_FILE} app.jar
+RUN ls /app/target
+RUN ls ${JAR_FILE}
 RUN java -Djarmode=layertools -jar app.jar extract
 
 FROM eclipse-temurin:17-jdk-alpine
