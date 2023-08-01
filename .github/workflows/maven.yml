@@ -48,7 +48,7 @@ jobs:
     - name: Run tests
       run: |
         docker build -t test .
-        docker run animeAPI ./mvnw -Dtest=AnimeApplicationTests test
+        docker run test -p 8080:8080
 #        docker-compose -f "docker-compose.yml" up -d --build
 #        ./mvnw spring-boot:build-image
 
