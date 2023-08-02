@@ -3,9 +3,9 @@ COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
-RUN #./mvnw -Dtest=AnimeApplicationTests test
-RUN ./mvnw spring-boot:build-image
+#RUN ./mvnw -Dtest=AnimeApplicationTests test
 RUN echo '--- done with tests ---'
+RUN ./mvnw spring-boot:build-image
 
 #FROM eclipse-temurin:17-jdk-alpine as builder
 #COPY src /app/src
