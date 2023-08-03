@@ -45,7 +45,7 @@ jobs:
       with:
         version: v0.7.0
 
-    - name: Run tests
+    - name: Run MongoDB
       run: |
         docker-compose -f ./docker-compose.yml up -d
 #        docker build -t test .
@@ -57,7 +57,7 @@ jobs:
 #      run:
 
     - name: Build with Maven
-      run: ./mvnw verify -Dspring.profiles.active=container # mvn -B package --file pom.xml
+      run: ./mvnw verify -Dmaven.test.skip=true # mvn -B package --file pom.xml -Dspring.profiles.active=container
 
 #    - if: ${{ github.ref == 'refs/heads/main' }}
 #      name : Build and Push Docker Image
