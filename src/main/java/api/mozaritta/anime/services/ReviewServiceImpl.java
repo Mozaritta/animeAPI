@@ -6,6 +6,7 @@ import api.mozaritta.anime.entities.Anime;
 import api.mozaritta.anime.entities.Review;
 import api.mozaritta.anime.repositories.AnimeRepository;
 import api.mozaritta.anime.repositories.ReviewRepository;
+import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -74,5 +75,10 @@ public class ReviewServiceImpl implements ReviewService {
     public ReviewDTO convertToDto(Review review) {
         ReviewDTO reviewDTO = reviewModelMapper().map(review, ReviewDTO.class);
         return reviewDTO;
+    }
+
+    @Override
+    public ObjectId save(Review review) {
+        return reviewRepository.save(review).getId();
     }
 }

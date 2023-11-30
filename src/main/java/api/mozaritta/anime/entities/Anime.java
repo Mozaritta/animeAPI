@@ -25,7 +25,7 @@ public class Anime {
     @NotNull
     private String title;
     private String type;
-    private String episodes;
+    private Integer episodes;
     private String status;
     private String thumbnail;
     private String picture;
@@ -35,7 +35,7 @@ public class Anime {
     @DocumentReference
     private List<Review> reviewsIds;
 
-    public Anime(String title, String imdbId, String episodes){
+    public Anime(String title, String imdbId, Integer episodes){
         this.title = title;
         this.imdbId = imdbId;
         this.episodes = episodes;

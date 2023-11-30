@@ -3,6 +3,7 @@ package api.mozaritta.anime.controllers;
 import api.mozaritta.anime.entities.Anime;
 import api.mozaritta.anime.repositories.AnimeRepository;
 import api.mozaritta.anime.services.ReviewService;
+import org.apache.commons.lang.RandomStringUtils;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,23 +51,22 @@ class AnimeControllerTest {
         String animeName1 = "Boku No Hero Academia";
         animeRepository.deleteAll();
         List<Anime> anime = new ArrayList<>();
-        byte[] array = new byte[7];
-        new Random().nextBytes(array);
         //Test logging with colors
         LOGGER.debug("\u001B[34m" + "Debug - {}" + "\u001B[34m", animeName1);
         LOGGER.info("Test logging with colors" + "\u001B[34m");
         LOGGER.info("\u001B[34m" + "Info  - {}" + "\u001B[33m", animeName1);
         LOGGER.warn("\u001B[33m" + "Warn  - {}" + "\u001B[31m", animeName1);
         LOGGER.error("\u001B[31m" + "Error - {}" + "\u001B[38m", animeName1);
-        anime.add(new Anime(animeName1, new String(array, StandardCharsets.UTF_8), "24"));
-        anime.add(new Anime("One Punch Man", new String(array, StandardCharsets.UTF_8), "24"));
-        anime.add(new Anime("Mashle", new String(array, StandardCharsets.UTF_8), "24"));
-        anime.add(new Anime("SpyXFamily", new String(array, StandardCharsets.UTF_8), "24"));
-        anime.add(new Anime("One Piece", new String(array, StandardCharsets.UTF_8), "24"));
-        anime.add(new Anime("Naruto", new String(array, StandardCharsets.UTF_8), "24"));
-        animeRepository.saveAll(anime);
 
-        new Random().nextBytes(array);
+        Integer episode = 24;
+        anime.add(new Anime(animeName1, RandomStringUtils.randomAlphanumeric(20), episode));
+        anime.add(new Anime("One Punch Man", RandomStringUtils.randomAlphanumeric(20), episode));
+        anime.add(new Anime("Mashle", RandomStringUtils.randomAlphanumeric(20), episode));
+        anime.add(new Anime("SpyXFamily", RandomStringUtils.randomAlphanumeric(20), episode));
+        anime.add(new Anime("One Piece", RandomStringUtils.randomAlphanumeric(20), episode));
+        anime.add(new Anime("Naruto", RandomStringUtils.randomAlphanumeric(20), episode));
+        animeRepository.saveAll(anime);
+        LOGGER.info("\u001B[34m" + "Info  - {}" + "\u001B[33m", anime.get(2));
         String imdb = animeRepository.findAnimeByTitle(animeName1).get().getImdbId();
         reviewService.createReview("love this anime!", imdb);
 

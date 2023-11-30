@@ -45,12 +45,6 @@ jobs:
       with:
         version: v0.7.0
 
-    - name: Run MongoDB
-      run: |
-        docker-compose -f ./docker-compose.yml up -d
-#        docker build -t test .
-#        docker run test -p 8080:8080
-
     - name: Build with Maven
       run: ./mvnw verify -Dmaven.test.skip=true # mvn -B package --file pom.xml -Dspring.profiles.active=container
 

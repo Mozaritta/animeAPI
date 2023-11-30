@@ -23,6 +23,9 @@ public class AnimeDTO {
     private String status;
     private String thumbnail;
     private String picture;
-    private AnimeSeason animeSeason;
+    private String season;
+    private Integer year;
+    private String review;
+    private Integer episodes;
 
 }

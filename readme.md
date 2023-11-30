@@ -7,10 +7,14 @@ IDE :
 - Intellij
 
 Database:
-- MongoDB : 
--- mongodbsh -- MongoDB Compass
+- MongoDB : mongodbsh - MongoDB Compass
 ****
 ## Details
+### Running the application
+Swagger ui is used in this project for easier control of the APIs.
+Rather than using Postman or Insomnia or others, you can run your 
+application normally in which ever port you want and go to 
+`http://localhost:8000/swagger-ui/index.html/`.
 ### MongoDB installation
 
 For this project you can use MongoDB in the cloud to configure your database, and install 

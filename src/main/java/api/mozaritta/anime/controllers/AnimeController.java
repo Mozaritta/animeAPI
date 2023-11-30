@@ -1,14 +1,18 @@
 package api.mozaritta.anime.controllers;
 
 import api.mozaritta.anime.configurations.Bucket4JConfiguration;
+import api.mozaritta.anime.dto.AnimeDTO;
 import api.mozaritta.anime.dto.ReviewDTO;
 import api.mozaritta.anime.entities.Anime;
+import api.mozaritta.anime.entities.AnimeSeason;
 import api.mozaritta.anime.entities.Review;
 import api.mozaritta.anime.responses.ResponseHandler;
 import api.mozaritta.anime.services.AnimeService;
 import api.mozaritta.anime.services.ReviewService;
 
 import io.github.bucket4j.Bucket;
+import org.apache.commons.lang.RandomStringUtils;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +21,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/api/v1/anime")
@@ -49,8 +55,8 @@ public class AnimeController {
     @GetMapping("all_anime")
     public ResponseEntity<ResponseHandler> allAnime(Integer page){
         if(this.bucket.tryConsume(1)){
-            LOG.info(animeService.getAllAnime(page).toString());
-            LOG.info("Getting all anime.");
+//            LOG.info(animeService.getAllAnime(page).toString());
+//            LOG.info("Getting all anime.");
             return new ResponseEntity<>(
                     new ResponseHandler(
                             200,
@@ -128,10 +134,30 @@ public class AnimeController {
     }
 
     @PostMapping("/add_anime")
-    public ResponseEntity<ResponseHandler> createAnime(@RequestBody Anime request){
-        String title = request.getTitle();
-        String imdbId = request.getImdbId();
-        Anime anime = new Anime(title, imdbId, "0");
+    public ResponseEntity<ResponseHandler> createAnime(@RequestBody AnimeDTO request){
+        String title      = request.getTitle();
+        String type       = request.getType();
+        String imdbId     = RandomStringUtils.randomAlphanumeric(24);
+        Integer year      = request.getYear();
+        String season     = request.getSeason();
+        String status     = request.getStatus();
+        String review     = request.getReview();
+        String thumbnail  = request.getThumbnail();
+        Integer episodes  = request.getEpisodes();
+
+        Anime anime = new Anime();
+        anime.setTitle(title);
+        anime.setImdbId(imdbId);
+        anime.setEpisodes(episodes);
+        anime.setStatus(status);
+        anime.setType(type);
+        anime.setThumbnail(thumbnail);
+        anime.setAnimeSeason(new AnimeSeason(season, year));
+        Review newReview = new Review(review);
+        reviewService.save(newReview);
+        List<Review> reviewList = new ArrayList<>();
+        reviewList.add(newReview);
+        anime.setReviewsIds(reviewList);
         animeService.save(anime);
         ArrayList<Object> list = new ArrayList<>();
         list.add(anime);
