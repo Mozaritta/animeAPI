@@ -22,4 +22,6 @@ public interface AnimeService {
     Anime convertToEntity(AnimeDTO animeDTO);
 
     AnimeDTO convertToDto(Anime anime);
+
+    boolean deleteAnimeById(ObjectId id);
 }

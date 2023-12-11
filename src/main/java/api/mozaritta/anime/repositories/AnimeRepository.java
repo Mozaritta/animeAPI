@@ -15,4 +15,10 @@ public interface AnimeRepository extends MongoRepository<Anime, ObjectId> {
 
     @Override
     Optional<Anime> findById(ObjectId id);
+
+    @Override
+    void delete(Anime entity);
+
+    @Override
+    void deleteById(ObjectId id);
 }

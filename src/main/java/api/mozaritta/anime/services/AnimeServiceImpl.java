@@ -76,4 +76,9 @@ public class AnimeServiceImpl implements AnimeService{
     public AnimeDTO convertToDto(Anime anime) {
         return animeModelMapper().map(anime, AnimeDTO.class);
     }
+
+    public boolean deleteAnimeById(ObjectId id){
+        animeRepository.deleteById(id);
+        return true;
+    }
 }

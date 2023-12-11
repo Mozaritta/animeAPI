@@ -175,6 +175,17 @@ public class AnimeController {
         return new ResponseEntity<>(new ResponseHandler(302, optionalAnime.get().getTitle(), "Anime updated"), HttpStatus.FOUND);
     }
 
+    @DeleteMapping("/delete_anime")
+    public ResponseEntity<ResponseHandler> deleteAnime(@RequestBody ObjectId id){
+
+        boolean exist = this.animeService.findById(id).isPresent();
+        if(!exist){
+            return new ResponseEntity<>(new ResponseHandler(404, false, "No anime found or false id"), HttpStatus.NOT_FOUND);
+        }
+        this.animeService.deleteAnimeById(id);
+        return new ResponseEntity<>(new ResponseHandler(200, true, "Anime deleted"), HttpStatus.OK);
+    }
+
     private Anime addReviewToAnime(AnimeDTO request, Anime anime){
         if(request.getReview() != null){
             Review newReview = new Review(request.getReview());
