@@ -4,6 +4,7 @@ import api.mozaritta.anime.dto.AllAnimeDTO;
 import api.mozaritta.anime.dto.AnimeDTO;
 import api.mozaritta.anime.entities.Anime;
 import api.mozaritta.anime.repositories.AnimeRepository;
+import api.mozaritta.anime.responses.ResponseHandler;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AnimeServiceImpl implements AnimeService{
@@ -49,11 +53,12 @@ public class AnimeServiceImpl implements AnimeService{
     //    public Optional<Anime> getAnimeByImdbId(String imdbId){
 //        return animeRepository.findAnimeByImdbId(imdbId);
 //    }
-    public Anime findById(ObjectId id) {
-        return animeRepository.findById(id).orElseThrow(() -> new RuntimeException("Anime not found"));
+    public Optional<Anime> findById(ObjectId id) {
+        return animeRepository.findById(id);
+                //new RuntimeException("Anime not found"));
     }
     @Override
-    public Anime convertToEntity(AnimeDTO animeDTO) throws ParseException {
+    public Anime convertToEntity(AnimeDTO animeDTO){
 
         Anime anime = animeModelMapper().map(animeDTO, Anime.class);
 

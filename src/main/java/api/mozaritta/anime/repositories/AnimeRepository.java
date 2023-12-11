@@ -13,4 +13,6 @@ public interface AnimeRepository extends MongoRepository<Anime, ObjectId> {
 
     Optional<Anime> findAnimeByTitle(String title);
 
+    @Override
+    Optional<Anime> findById(ObjectId id);
 }

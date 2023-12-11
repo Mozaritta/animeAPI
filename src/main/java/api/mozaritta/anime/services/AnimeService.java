@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Optional;
 
 public interface AnimeService {
 
@@ -17,7 +18,8 @@ public interface AnimeService {
 
     ObjectId save(Anime anime);
 
-    Anime convertToEntity(AnimeDTO animeDTO) throws ParseException;
+    public Optional<Anime> findById(ObjectId id);
+    Anime convertToEntity(AnimeDTO animeDTO);
 
     AnimeDTO convertToDto(Anime anime);
 }

@@ -135,32 +135,49 @@ public class AnimeController {
 
     @PostMapping("/add_anime")
     public ResponseEntity<ResponseHandler> createAnime(@RequestBody AnimeDTO request){
-        String title      = request.getTitle();
-        String type       = request.getType();
-        String imdbId     = RandomStringUtils.randomAlphanumeric(24);
-        Integer year      = request.getYear();
-        String season     = request.getSeason();
-        String status     = request.getStatus();
-        String review     = request.getReview();
-        String thumbnail  = request.getThumbnail();
-        Integer episodes  = request.getEpisodes();
+//        String title      = request.getTitle();
+//        String type       = request.getType();
+//        String imdbId     = RandomStringUtils.randomAlphanumeric(24);
+//        Integer year      = request.getYear();
+//        String season     = request.getSeason();
+//        String status     = request.getStatus();
+//        String thumbnail  = request.getThumbnail();
+//        Integer episodes  = request.getEpisodes();
+        Anime anime = animeService.convertToEntity(request);
+        animeService.save(anime);
+//        Anime anime = new Anime();
+//        anime.setTitle(title);
+//        anime.setImdbId(imdbId);
+//        anime.setEpisodes(episodes);
+//        anime.setStatus(status);
+//        anime.setType(type);
+//        anime.setThumbnail(thumbnail);
+//        anime.setAnimeSeason(new AnimeSeason(season, year));
 
-        Anime anime = new Anime();
-        anime.setTitle(title);
-        anime.setImdbId(imdbId);
-        anime.setEpisodes(episodes);
-        anime.setStatus(status);
-        anime.setType(type);
-        anime.setThumbnail(thumbnail);
-        anime.setAnimeSeason(new AnimeSeason(season, year));
-        Review newReview = new Review(review);
+        Review newReview = new Review(request.getReview());
         reviewService.save(newReview);
         List<Review> reviewList = new ArrayList<>();
         reviewList.add(newReview);
         anime.setReviewsIds(reviewList);
         animeService.save(anime);
-        ArrayList<Object> list = new ArrayList<>();
-        list.add(anime);
-        return new ResponseEntity<>(new ResponseHandler(200, list, "Anime added"),HttpStatus.CREATED);
+
+        return new ResponseEntity<>(new ResponseHandler(200, anime.getTitle(), "Anime added"),HttpStatus.CREATED);
     }
+    @PostMapping("/find_anime")
+    public ResponseEntity<ResponseHandler> findAnime(@RequestBody AnimeDTO request){
+        ObjectId animeId = request.getId();
+        if(animeId == null) {
+            return new ResponseEntity<>(new ResponseHandler(404, false, "No id provided"), HttpStatus.NOT_FOUND);
+        }
+        Optional<Anime> optionalAnime = this.animeService.findById(animeId);
+        boolean exist = optionalAnime.isPresent();
+        if(!exist){
+            return new ResponseEntity<>(new ResponseHandler(404, animeService.getFirst(), "Anime not found"), HttpStatus.NOT_FOUND);
+        }
+
+        Anime anime = animeService.convertToEntity(request);
+        animeService.save(anime);
+        return new ResponseEntity<>(new ResponseHandler(302, optionalAnime.get().getTitle(), "Anime updated"), HttpStatus.FOUND);
+    }
+
 }
