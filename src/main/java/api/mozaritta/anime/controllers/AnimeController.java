@@ -144,7 +144,7 @@ public class AnimeController {
 //        String thumbnail  = request.getThumbnail();
 //        Integer episodes  = request.getEpisodes();
         Anime anime = animeService.convertToEntity(request);
-        animeService.save(anime);
+        animeService.save(this.addReviewToAnime(request, anime));
 //        Anime anime = new Anime();
 //        anime.setTitle(title);
 //        anime.setImdbId(imdbId);
@@ -154,12 +154,7 @@ public class AnimeController {
 //        anime.setThumbnail(thumbnail);
 //        anime.setAnimeSeason(new AnimeSeason(season, year));
 
-        Review newReview = new Review(request.getReview());
-        reviewService.save(newReview);
-        List<Review> reviewList = new ArrayList<>();
-        reviewList.add(newReview);
-        anime.setReviewsIds(reviewList);
-        animeService.save(anime);
+
 
         return new ResponseEntity<>(new ResponseHandler(200, anime.getTitle(), "Anime added"),HttpStatus.CREATED);
     }
@@ -176,8 +171,20 @@ public class AnimeController {
         }
 
         Anime anime = animeService.convertToEntity(request);
-        animeService.save(anime);
+        animeService.save(this.addReviewToAnime(request, anime));
         return new ResponseEntity<>(new ResponseHandler(302, optionalAnime.get().getTitle(), "Anime updated"), HttpStatus.FOUND);
     }
 
+    private Anime addReviewToAnime(AnimeDTO request, Anime anime){
+        if(request.getReview() != null){
+            Review newReview = new Review(request.getReview());
+            reviewService.save(newReview);
+            List<Review> reviewList = new ArrayList<>();
+            reviewList.add(newReview);
+            anime.setReviewsIds(reviewList);
+            animeService.save(anime);
+        }
+
+        return anime;
+    }
 }
