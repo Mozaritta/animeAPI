@@ -23,5 +23,5 @@ public interface AnimeService {
 
     AnimeDTO convertToDto(Anime anime);
 
-    boolean deleteAnimeById(ObjectId id);
+    void deleteAnimeById(ObjectId id);
 }

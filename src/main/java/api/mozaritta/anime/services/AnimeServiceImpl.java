@@ -63,8 +63,8 @@ public class AnimeServiceImpl implements AnimeService{
         Anime anime = animeModelMapper().map(animeDTO, Anime.class);
 
         if (animeDTO.getId() != null) {
-            if(animeRepository.findById(animeDTO.getId()).isPresent()){
-                Anime oldAnime = animeRepository.findById(animeDTO.getId()).get();
+            if(this.findById(animeDTO.getId()).isPresent()){
+                Anime oldAnime = this.findById(animeDTO.getId()).get();
                 anime.setImdbId(oldAnime.getImdbId());
                 anime.setTitle(oldAnime.getTitle());
             }
@@ -77,8 +77,9 @@ public class AnimeServiceImpl implements AnimeService{
         return animeModelMapper().map(anime, AnimeDTO.class);
     }
 
-    public boolean deleteAnimeById(ObjectId id){
+    @Override
+    public void deleteAnimeById(ObjectId id){
         animeRepository.deleteById(id);
-        return true;
     }
+
 }

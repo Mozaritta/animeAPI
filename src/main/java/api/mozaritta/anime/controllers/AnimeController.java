@@ -133,6 +133,16 @@ public class AnimeController {
         return new ResponseEntity<>(new ResponseHandler(400, new ArrayList<>(), "test"), HttpStatus.TOO_MANY_REQUESTS);
     }
 
+    @PostMapping("/getAnimeById")
+    public ResponseEntity<ResponseHandler> getAnimeById(@RequestBody ObjectId request){
+        Optional<Anime> anime = this.animeService.findById(request);
+        if(anime.isEmpty()) {
+            return new ResponseEntity<>(new ResponseHandler(404, false, "No anime found"), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(new ResponseHandler(302, anime, "Anime found"),HttpStatus.FOUND);
+    }
+
     @PostMapping("/add_anime")
     public ResponseEntity<ResponseHandler> createAnime(@RequestBody AnimeDTO request){
 //        String title      = request.getTitle();
@@ -154,12 +164,10 @@ public class AnimeController {
 //        anime.setThumbnail(thumbnail);
 //        anime.setAnimeSeason(new AnimeSeason(season, year));
 
-
-
         return new ResponseEntity<>(new ResponseHandler(200, anime.getTitle(), "Anime added"),HttpStatus.CREATED);
     }
-    @PostMapping("/find_anime")
-    public ResponseEntity<ResponseHandler> findAnime(@RequestBody AnimeDTO request){
+    @PostMapping("/update_anime")
+    public ResponseEntity<ResponseHandler> updateAnime(@RequestBody AnimeDTO request){
         ObjectId animeId = request.getId();
         if(animeId == null) {
             return new ResponseEntity<>(new ResponseHandler(404, false, "No id provided"), HttpStatus.NOT_FOUND);
@@ -187,6 +195,7 @@ public class AnimeController {
     }
 
     private Anime addReviewToAnime(AnimeDTO request, Anime anime){
+
         if(request.getReview() != null){
             Review newReview = new Review(request.getReview());
             reviewService.save(newReview);
