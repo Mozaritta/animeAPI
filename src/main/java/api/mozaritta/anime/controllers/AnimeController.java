@@ -4,14 +4,14 @@ import api.mozaritta.anime.configurations.Bucket4JConfiguration;
 import api.mozaritta.anime.dto.AnimeDTO;
 import api.mozaritta.anime.dto.ReviewDTO;
 import api.mozaritta.anime.entities.Anime;
-import api.mozaritta.anime.entities.AnimeSeason;
 import api.mozaritta.anime.entities.Review;
+import api.mozaritta.anime.requests.AnimeRequest;
 import api.mozaritta.anime.responses.ResponseHandler;
 import api.mozaritta.anime.services.AnimeService;
 import api.mozaritta.anime.services.ReviewService;
 
 import io.github.bucket4j.Bucket;
-import org.apache.commons.lang.RandomStringUtils;
+import jakarta.validation.Valid;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,27 +23,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @RestController
 @RequestMapping("/api/v1/anime")
 public class AnimeController {
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
+    @Autowired
+    /* final private Bucket4JConfiguration bucket4JConfiguration; */
+    final private Bucket bucket;
 
     public AnimeController(
             Bucket4JConfiguration bucket4JConfiguration, AnimeService animeService,
             ReviewService reviewService
     ){
-        this.bucket4JConfiguration = bucket4JConfiguration;
+//        this.bucket4JConfiguration = bucket4JConfiguration;
         this.animeService = animeService;
         this.reviewService = reviewService;
         this.bucket = bucket4JConfiguration.bucketConfig();
 
     }
-    @Autowired
-    private Bucket4JConfiguration bucket4JConfiguration;
-    private Bucket bucket;
 
     @Autowired
     private final AnimeService animeService;
@@ -52,7 +51,7 @@ public class AnimeController {
 
     private final String message = "Too Many Requests, please try in a moment";
 
-    @GetMapping("all_anime")
+    @GetMapping("allAnime")
     public ResponseEntity<ResponseHandler> allAnime(Integer page){
         if(this.bucket.tryConsume(1)){
 //            LOG.info(animeService.getAllAnime(page).toString());
@@ -68,7 +67,7 @@ public class AnimeController {
         return new ResponseEntity<>(new ResponseHandler(400, new ArrayList<>(), this.message), HttpStatus.TOO_MANY_REQUESTS);
     }
 
-    @GetMapping("all_reviews")
+    @GetMapping("allReviews")
     public ResponseEntity<ResponseHandler> allReviews(Integer page){
         if(this.bucket.tryConsume(1)){
             LOG.info("Getting all reviews.");
@@ -84,7 +83,7 @@ public class AnimeController {
         return new ResponseEntity<>(new ResponseHandler(400, new ArrayList<>(), this.message), HttpStatus.TOO_MANY_REQUESTS);
     }
 
-    @GetMapping("get_first_anime")
+    @GetMapping("getFirstAnime")
     public ResponseEntity<ResponseHandler> getRandom() {
         if(this.bucket.tryConsume(1)){
 //            Anime anime = new ObjectMapper().readValue(json, Anime.class);
@@ -112,7 +111,7 @@ public class AnimeController {
         return new ResponseEntity<>(new ResponseHandler(400, new ArrayList<>(), "test"), HttpStatus.TOO_MANY_REQUESTS);
     }
 
-    @PostMapping("/add_review")
+    @PostMapping("/addReview")
     public ResponseEntity<ResponseHandler> createReview(@RequestBody ReviewDTO reviewDTO) {
         // ToDo: delete this part once the responses are well structured - Map<String , String> payload
         if(this.bucket.tryConsume(1)) {
@@ -128,7 +127,7 @@ public class AnimeController {
             Review response = reviewService.createReview(reviewDTO.getBody(), reviewDTO.getImdbID());
             ArrayList<Object> list = new ArrayList<>();
             list.add(response);
-            return new ResponseEntity<>(new ResponseHandler(200, list, "Review added"), HttpStatus.CREATED);
+            return new ResponseEntity<>(new ResponseHandler(201, list, "Review added"), HttpStatus.CREATED);
         }
         return new ResponseEntity<>(new ResponseHandler(400, new ArrayList<>(), "test"), HttpStatus.TOO_MANY_REQUESTS);
     }
@@ -143,47 +142,30 @@ public class AnimeController {
         return new ResponseEntity<>(new ResponseHandler(302, anime, "Anime found"),HttpStatus.FOUND);
     }
 
-    @PostMapping("/add_anime")
-    public ResponseEntity<ResponseHandler> createAnime(@RequestBody AnimeDTO request){
-//        String title      = request.getTitle();
-//        String type       = request.getType();
-//        String imdbId     = RandomStringUtils.randomAlphanumeric(24);
-//        Integer year      = request.getYear();
-//        String season     = request.getSeason();
-//        String status     = request.getStatus();
-//        String thumbnail  = request.getThumbnail();
-//        Integer episodes  = request.getEpisodes();
-        Anime anime = animeService.convertToEntity(request);
-        animeService.save(this.addReviewToAnime(request, anime));
-//        Anime anime = new Anime();
-//        anime.setTitle(title);
-//        anime.setImdbId(imdbId);
-//        anime.setEpisodes(episodes);
-//        anime.setStatus(status);
-//        anime.setType(type);
-//        anime.setThumbnail(thumbnail);
-//        anime.setAnimeSeason(new AnimeSeason(season, year));
-
-        return new ResponseEntity<>(new ResponseHandler(200, anime.getTitle(), "Anime added"),HttpStatus.CREATED);
+    @PostMapping("/addAnime")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<ResponseHandler> createAnime(@RequestBody @Valid AnimeRequest request){
+        AnimeDTO animeDTO = this.animeService.createAnime(request);
+        return new ResponseEntity<>(new ResponseHandler(201, animeDTO, "Anime added"),HttpStatus.CREATED);
     }
-    @PostMapping("/update_anime")
-    public ResponseEntity<ResponseHandler> updateAnime(@RequestBody AnimeDTO request){
-        ObjectId animeId = request.getId();
-        if(animeId == null) {
+    @PostMapping("/updateAnime")
+    public ResponseEntity<ResponseHandler> updateAnime(@RequestBody AnimeRequest request){
+        if(request.getId() == null) {
             return new ResponseEntity<>(new ResponseHandler(404, false, "No id provided"), HttpStatus.NOT_FOUND);
         }
-        Optional<Anime> optionalAnime = this.animeService.findById(animeId);
+        Optional<Anime> optionalAnime = this.animeService.findById(request.getId());
         boolean exist = optionalAnime.isPresent();
         if(!exist){
             return new ResponseEntity<>(new ResponseHandler(404, animeService.getFirst(), "Anime not found"), HttpStatus.NOT_FOUND);
         }
 
-        Anime anime = animeService.convertToEntity(request);
-        animeService.save(this.addReviewToAnime(request, anime));
-        return new ResponseEntity<>(new ResponseHandler(302, optionalAnime.get().getTitle(), "Anime updated"), HttpStatus.FOUND);
+        Anime anime = this.animeService.convertRequestToDTO(request);
+        LOG.error(request.getTitle(), anime.getTitle());
+        animeService.save(this.animeService.addReviewToAnime(request, anime));
+        return new ResponseEntity<>(new ResponseHandler(302, anime.getTitle(), "Anime updated"), HttpStatus.FOUND);
     }
 
-    @DeleteMapping("/delete_anime")
+    @DeleteMapping("/deleteAnime")
     public ResponseEntity<ResponseHandler> deleteAnime(@RequestBody ObjectId id){
 
         boolean exist = this.animeService.findById(id).isPresent();
@@ -194,17 +176,4 @@ public class AnimeController {
         return new ResponseEntity<>(new ResponseHandler(200, true, "Anime deleted"), HttpStatus.OK);
     }
 
-    private Anime addReviewToAnime(AnimeDTO request, Anime anime){
-
-        if(request.getReview() != null){
-            Review newReview = new Review(request.getReview());
-            reviewService.save(newReview);
-            List<Review> reviewList = new ArrayList<>();
-            reviewList.add(newReview);
-            anime.setReviewsIds(reviewList);
-            animeService.save(anime);
-        }
-
-        return anime;
-    }
 }
