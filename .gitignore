@@ -3,7 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-
+/logs/logfile.log
 ### STS ###
 .apt_generated
 .classpath
@@ -37,4 +37,4 @@ build/
 setEnv.sh
 
 ### Logs ###
-logs
+logs/
