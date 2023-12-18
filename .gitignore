@@ -37,5 +37,4 @@ build/
 setEnv.sh
 
 ### Logs ###
-logs/logfile.log
-logs/*
+logs
